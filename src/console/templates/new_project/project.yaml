@@ -1,0 +1,82 @@
+name: python-jobs-gco  # nome-do-repositorio
+slack: ""  # nao implementado, sempre vazio
+
+x-defaults: &x-defaults
+  -
+    # https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html
+    cron_expression: 55 13 1,15 * ? *
+
+    # qual comando executar
+    entrypoint: hello-world
+
+    # deve ser unico dentro de `deployments`
+    name: hello-world
+
+    # enabled|disabled; disabled por padrao pra evitar erros
+    status: disabled
+
+    # fixo: scheduled-task
+    workload_type: scheduled-task
+
+
+# definicao dos RPA's/automacoes
+deployments:
+  - workload_type: scheduled-task
+    name: coordenacao-gravacao-upload
+    cron_expression: 00 08 * * ? *
+    status: enabled
+    entrypoint: coordenacao-gravacao-upload
+  - workload_type: scheduled-task
+    name: cancelamento
+    cron_expression: 00 09 * * ? *
+    status: enabled
+    entrypoint: cancelamento
+  - workload_type: scheduled-task
+    name: retira-inadimplencia
+    cron_expression: 0,30 12-03 * * ? *
+    status: enabled
+    entrypoint: retira-inadimplencia
+
+  - <<: *x-defaults
+    cron_expression: 30 18 7 6 ? 2023
+    entrypoint: aprova-comissoes --rds-read-size=100
+    name: aprova-comissoes-temp
+    status: enabled
+
+  - <<: *x-defaults
+    cron_expression: 0 4 * * ? *
+    entrypoint: aprova-comissoes
+    name: aprova-comissoes
+    status: enabled
+
+  - <<: *x-defaults
+    cron_expression: 00 20 * * ? *
+    entrypoint: saturno
+    name: saturno
+    status: enabled
+
+  # feeds
+  - workload_type: scheduled-task
+    name: importar-feed-cheguei-la
+    cron_expression: 00 09 * * ? *
+    status: enabled
+    entrypoint: importar-feed-cheguei-la
+  
+  - workload_type: scheduled-task
+    name: importar-feed-noticias
+    cron_expression: 00 09 * * ? *
+    status: enabled
+    entrypoint: importar-feed-noticias
+
+  - workload_type: scheduled-task
+    name: importar-feed-quem-entende
+    cron_expression: 00 09 * * ? *
+    status: enabled
+    entrypoint: importar-feed-palavra-quem-entende
+
+  # notificar-senha-sigeco
+  - workload_type: schedule-task
+    name: notificar-alteracao-senha-sigeco
+    cron_expression: 00 09 * * ? *
+    status: enabled
+    entrypoint: notificar-alteracao-senha-sigeco

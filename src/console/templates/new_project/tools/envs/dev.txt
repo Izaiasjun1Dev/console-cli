@@ -1,0 +1,27 @@
+# environment config
+ENVIRONMENT=DEVELOPMENT
+
+# cmd config
+CMD__COMMANDS_PATH=examples/commands
+NAME=question-console
+VERSION=0.0.1
+
+# logger config
+LOGGER__LEVEL=INFO
+
+# elastic or open_search config
+OPEN_ELASTIC__HOST=localhost
+OPEN_ELASTIC__PORT=9200
+OPEN_ELASTIC__USER=admin
+OPEN_ELASTIC__PASSWORD=admin
+OPEN_ELASTIC__USE_SSL=True
+OPEN_ELASTIC__VERIFY_CERTS=False
+OPEN_ELASTIC__SSL_ASSERT_HOSTNAME=False
+OPEN_ELASTIC__SSL_SHOW_WARN=False
+
+# aws config
+AWS__ACCESS_KEY_ID=teste
+AWS__SECRET_ACCESS_KEY=teste
+AWS__REGION=us-east-1
+
+
